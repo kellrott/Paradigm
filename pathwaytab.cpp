@@ -44,9 +44,9 @@ const std::string PathwayTab::CENTRAL_DOGMA =
 const std::string PathwayTab::OBSERVATION_INTERACTION = "-obs>";
 
 size_t countVotesRepressorDominates(size_t down, size_t up) {
-  if (up > 0 & up > down) {
+  if (up > 0 && up > down) {
     return 2;
-  } else if (down > 0 & down >= up) {
+  } else if (down > 0 && down >= up) {
     return 0;
   } else {
     return 1;
@@ -127,8 +127,8 @@ void readInteractionMap(istream& is,
 			map< string, vector< string > >& out_imap) {
   string line;
   while(getline(is, line)) {
-    vector< string > vals;
-    dai::tokenizeString(line, vals);
+    vector< string > vals = 
+    dai::tokenizeString(line, false);
     if (vals.size() != 4) {
       THROW("Interaction map lines must have 4 entries");
     }
@@ -142,8 +142,8 @@ GeneProteinExpressionModel::GeneProteinExpressionModel(istream& is)
   : _states(), _steps() {
   string line;
   while(getline(is, line)) {
-    vector<string> vals;
-    dai::tokenizeString(line, vals);
+    vector<string> vals = 
+    dai::tokenizeString(line, false);
     if (vals.size() != 3) {
       THROW("Must have three values per line in central dogma");
     }
@@ -187,8 +187,8 @@ PathwayTab::PathwayTab(istream& pathway_stream,
   readInteractionMap(imap_stream, _imap);
 
   while(getline(pathway_stream, line)) {
-    vector< string > vals;
-    dai::tokenizeString(line, vals);
+    vector< string > vals = 
+    dai::tokenizeString(line, false);
     if (vals.size() == 2) {
       entity_lines.push_back(vals);
     } else if (vals.size() == 3) {
